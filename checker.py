@@ -5,8 +5,10 @@ import pandas as pd
 import numpy as np
 import unittest
 import datetime
-name = 'DELETE - S92031MODPMK2102.docx'
 
+__VERSION__: 0.1
+
+name = 'DELETE - S92031MODPMK2102.docx'
 
 class extractDocx(object):
     TBL_RQ  = 0 # Request By, Load Before, Project ID
@@ -16,7 +18,7 @@ class extractDocx(object):
     TBL_CER = 4 # Certification Use, Reason for deletion, No term active
     TBL_OPS = 5 # OPs use, et al
 
-    def __init__(self, document):
+    def __init__(self, document: str):
         self.doc = Document(document)
         self.software_version = self.software(self).get_software_version
         self.status           = self.software(self).get_status
@@ -41,7 +43,7 @@ class extractDocx(object):
             self.tables.append(pd.DataFrame(df))
         return self.tables
     
-    def __get_tables(self, t_num):
+    def __get_tables(self, t_num: int):
         self.__set_tables()
         return self.tables[t_num]
     
@@ -70,7 +72,7 @@ class extractDocx(object):
         return self.__get_tables(self.TBL_OPS)
 
     class software(object):
-        def __init__(self, outer):
+        def __init__(self, outer: object):
             self.outer = outer
             self.sw_tbl = self.outer.get_software_tbl
 
@@ -83,7 +85,7 @@ class extractDocx(object):
             return self.outer.join_string(self.sw_tbl, 0, 21, 23)
 
     class request(object):
-        def __init__(self, outer):
+        def __init__(self, outer: object):
             self.outer = outer
             self.rq_tbl = outer.get_rq_tbl
 
@@ -100,7 +102,7 @@ class extractDocx(object):
             return self.outer.join_string(self.rq_tbl, 0, 5 ,6)
 
     class certification(object):
-        def __init__(self, outer):
+        def __init__(self, outer: object):
             self.outer = outer
             self.cer_tbl = outer.get_cer_tbl
 
@@ -152,7 +154,7 @@ class test_checker(unittest.TestCase):
     def tearDown(self):
         pass
 
-def r_var(txt, attr):
+def r_var(txt: str, attr: str) -> str:
     return f"{'-'*5}> Getting {txt}...\n \t{txt}: {attr}"
 
 
